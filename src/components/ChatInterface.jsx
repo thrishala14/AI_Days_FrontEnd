@@ -11,6 +11,11 @@ const ChatInterface = () => {
   const socket = useRef(null);
   const lineHeight = 24; // px (adjust if your font size is different)
   const maxRows = 6;
+  const messagesEndRef = useRef(null);
+
+useEffect(() => {
+  messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+}, [messages]);
 
   useEffect(() => {
     const textarea = textareaRef.current;
@@ -56,10 +61,10 @@ const ChatInterface = () => {
 };
 
   return (
-    <div className="chat-container">
+    <div className=" d-flex flex-column  vh-100">
       <ChatInterfaceNavbar />
-      <div className="d-flex justify-content-center align-items-center py-5">
-        <div className="w-75">
+      <div className="flex-grow-1 overflow-auto px-4 py-3 d-flex justify-content-center message-window">
+        <div className="w-75 " >
           {messages.map((msg, i) => (
             <div
               key={i}
@@ -76,7 +81,9 @@ const ChatInterface = () => {
               </span>
             </div>
           ))}
+          <div ref={messagesEndRef}></div>
         </div>
+        
       </div>
 
       <div
@@ -109,7 +116,7 @@ const ChatInterface = () => {
             autoFocus
           />
           <button
-            className="chat-interface-input-send-button"
+            className="chat-interface-input-send-button ms-1 mt-auto"
             onClick={sendMessage}
           >
             <FaArrowUp />
