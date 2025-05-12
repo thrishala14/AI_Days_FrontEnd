@@ -1,0 +1,42 @@
+.chat-interface-input-group {
+  width: 90% !important;
+  padding: var(--padding-xs) var(--padding-xs) !important;
+  color: var(--text-color) !important;
+  font-size: var(--font-size-lg) !important;
+  font-family: var(--font-primary);
+  border: none !important;
+  background-color: white !important;
+  border-radius: 24px !important;
+  transition: none !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.chat-input-container {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  width: 100%;
+  padding: 0.5rem;
+}
+
+.chat-interface-input-text {
+  background-color: transparent !important;
+  border: none !important;
+  outline: none !important;
+}
+
+.chat-interface-input-send-button {
+  background-color: transparent !important;
+  border: none !important;
+  outline: none !important;
+  margin-right: 10px;
+}
+
+.chat-interface-input-text:focus {
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+body.dark input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
