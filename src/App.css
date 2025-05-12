@@ -99,6 +99,38 @@
   
 }
 
+/* normal font */
+@font-face {
+  font-family: 'Dava Sans';
+  src: url('../fonts/DavaSans-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* bold font */
+@font-face {
+  font-family: 'Dava Sans';
+  src: url('../fonts/DavaSans-Bold.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+/* mediumm font */
+@font-face {
+  font-family: 'Dava Sans';
+  src: url('../fonts/DavaSans-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+/* light font */
+@font-face {
+  font-family: 'Dava Sans';
+  src: url('../fonts/DavaSans-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+}
+
 body.light {
   --bg-color: var(--color-pure-white);
   --text-color: var(--color-primary-blue-100);
@@ -178,11 +210,60 @@ body.dark {
 
 /* Utility Font Classes */
 body {
-  font-family: var(--font-primary);
+  font-family: var(--font-primary) !important;
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-normal) ;
   line-height: var(--line-height-normal);
   background-color: var(--bg-color);
   color: var(--text-color);
   
+}
+
+.chat-container {
+  font-family: var(--font-primary) !important;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal) ;
+  line-height: var(--line-height-normal);
+  color: var(--text-color);
+}
+
+body.light .chat-container{
+  background-color: var(--bg-color) ;
+}
+
+body.dark .chat-container{
+  background-color: #1B252B  ;
+}
+
+.file-upload-container{
+  font-family: var(--font-primary) !important;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal) ;
+  line-height: var(--line-height-normal);
+  color: var(--text-color);
+}
+
+body.light .file-upload-container{
+  background-color: #f8f9fa ;
+}
+
+body.dark .file-upload-container{
+  background-color: #1B252B  ;
+}
+
+.fs-12{
+  font-size: var( --font-size-base);
+}
+
+.fs-14{
+  font-size: var( --font-size-lg);
+}
+
+.fs-16{
+  font-size: var(--font-size-xl);
+}
+
+.col-9-5 {
+  flex: 0 0 79.16% !important;
+  max-width: 79.16% !important;
 }
