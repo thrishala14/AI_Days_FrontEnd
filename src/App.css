@@ -267,3 +267,21 @@ body.dark .file-upload-container{
   flex: 0 0 79.16% !important;
   max-width: 79.16% !important;
 }
+
+.resize-handle {
+  width: 5px;
+  cursor: col-resize;
+    height: 100vh;
+  background-color: #ccc;
+}
+.resize-handle:hover {
+  background-color: #aaa;
+}
+
+
+.file-upload-sidebar {
+  height: 100vh;
+  padding-bottom: 20px;
+  overflow-y: auto; /* allows vertical scrolling */
+  overflow-x: auto; /* optional, avoids horizontal scroll */
+}

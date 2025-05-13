@@ -3,9 +3,33 @@ import ChatInterface from "./components/ChatInterface";
 import { Button, Navbar, Container, Row, Col } from "react-bootstrap";
 import "./App.css";
 import FileUploadSidebar from "./components/FileUploadSidebar";
+import FileUploadNavbar from "./components/FileUploadNavbar";
 
 export default function App() {
   const [theme, setTheme] = useState("light");
+  const [sidebarWidth, setSidebarWidth] = useState("300px");
+
+  const handleMouseDown = (e) => {
+    const startX = e.clientX;
+
+    const handleMouseMove = (e) => {
+      const newWidth = e.clientX;
+      const minWidth = 200; // px
+      const maxWidth = 500; // optional
+
+      if (newWidth >= minWidth && newWidth <= maxWidth) {
+        setSidebarWidth(`${newWidth}px`);
+      }
+    };
+
+    const handleMouseUp = () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+    };
+
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
+  };
 
   useEffect(() => {
     document.body.className = theme;
@@ -13,15 +37,23 @@ export default function App() {
 
   return (
     <>
-      <div className=" vh-100 overflow-hidden">
-        <Row className="h-100">
-          <Col md={3} className={`border-end p-0 file-upload-container`}>
-            <FileUploadSidebar />
-          </Col>
-          <Col className="d-flex flex-column position-relative p-0 chat-container ">
-            <ChatInterface />
-          </Col>
-        </Row>
+      <div className="d-flex vh-100 overflow-hidden">
+        <div
+          className="file-upload-container border-end"
+          style={{ width: sidebarWidth }}
+        >
+         <div className="file-upload-sidebar">
+           <FileUploadNavbar />
+          <FileUploadSidebar />
+         </div>
+        </div>
+
+        {/* Drag handle */}
+        <div className="resize-handle" onMouseDown={handleMouseDown} />
+
+        <div className="chat-container flex-grow-1 d-flex flex-column position-relative p-0">
+          <ChatInterface />
+        </div>
       </div>
     </>
   );

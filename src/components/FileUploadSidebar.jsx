@@ -45,8 +45,8 @@ const FileUploadSidebar = () => {
 
   const preventDefault = (e) => e.preventDefault();
   return (
-    <div className="file-upload-sidebar ">
-      <FileUploadNavbar />
+    <div>
+      
       <div className="p-4">
         <div
           className="dotted-upload-box text-center"

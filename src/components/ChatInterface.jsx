@@ -13,9 +13,9 @@ const ChatInterface = () => {
   const maxRows = 6;
   const messagesEndRef = useRef(null);
 
-useEffect(() => {
-  messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-}, [messages]);
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   useEffect(() => {
     const textarea = textareaRef.current;
@@ -54,37 +54,33 @@ useEffect(() => {
   };
 
   const handleKeyDown = (e) => {
-  if (e.key === "Enter" && !e.shiftKey) {
-    e.preventDefault();
-    sendMessage();
-  }
-};
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  };
 
   return (
     <div className=" d-flex flex-column  vh-100">
       <ChatInterfaceNavbar />
-      <div className="flex-grow-1 overflow-auto px-4 py-3 d-flex justify-content-center message-window">
-        <div className="w-75 " >
-          {messages.map((msg, i) => (
-            <div
-              key={i}
-              className={`mb-1 fs-14 text-${
-                msg.sender === "user" ? "end" : "start"
-              }`}
-            >
-              <span
-                className={`d-inline-block chat-window-text ${
-                  msg.sender === "user" ? "user-text" : "bg-light"
-                }`}
-              >
-                {msg.text}
-              </span>
-            </div>
-          ))}
-          <div ref={messagesEndRef}></div>
+     <div className="flex-grow-1 overflow-auto px-4 py-3 d-flex justify-content-center message-window">
+  <div className="message-window-container w-100 d-flex flex-column">
+    {messages.map((msg, i) => (
+      <div
+        key={i}
+        className={`mb-1 fs-14 d-flex justify-content-${msg.sender === "user" ? "end" : "start"}`}
+      >
+        <div
+          className={`chat-window-text ${msg.sender === "user" ? "user-text" : "bg-light"}`}
+        >
+          {msg.text}
         </div>
-        
       </div>
+    ))}
+    <div ref={messagesEndRef}></div>
+  </div>
+</div>
+
 
       <div
         className={`chat-input-container d-flex align-items-center justify-content-center p-1  flex-column gap-3 ${

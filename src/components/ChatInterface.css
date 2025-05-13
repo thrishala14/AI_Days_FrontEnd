@@ -10,10 +10,19 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.message-window{
+.message-window {
+  flex-grow: 1;
+  overflow-y: auto;
   margin-bottom: 80px;
+  min-width: 0; /* ✅ important */
 }
 
+.message-window-container {
+  width: 100%;
+  padding: 0 5vw;              /* Responsive padding */
+  max-width: 900px;
+  min-width: 0;
+}
 
 
 body.light .chat-interface-input-group {
@@ -53,18 +62,22 @@ body.dark .chat-interface-input-group {
   transition: background-color 0.2s ease;
 }
 
-.chat-window-text{
-  color: var(--text-color);
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+.chat-window-text {
+  display: inline-block;         /* or block */
+  max-width: 70%;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  padding: 10px 20px;
   border-radius: 16px;
   margin-bottom: 10px;
+  text-align: left;
+  min-width: 0;                  /* ✅ very important */
 }
 
 .user-text{
   background-color: var(--text-input-background-color);
+  max-width: 70%;
 }
 
 .chat-interface-input-text:focus {
@@ -106,12 +119,6 @@ body.dark .chat-interface-navbar {
 
 .navbar-brand {
   color: var(--text-color) !important;
-}
-
-.file-upload-sidebar {
-  height: 100vh;
-  overflow-y: auto; /* allows vertical scrolling */
-  overflow-x: auto; /* optional, avoids horizontal scroll */
 }
 
 body.light .file-upload-navbar {
