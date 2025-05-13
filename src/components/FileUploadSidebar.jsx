@@ -14,32 +14,70 @@ const FileUploadSidebar = () => {
     const files = Array.from(e.target.files);
 
     for (const file of files) {
-      if (!file.name.endsWith(".zip")) continue;
+      const isZip = file.name.endsWith(".zip");
+      const isGz = file.name.endsWith(".gz");
+    
+      if (!isZip && !isGz) continue;
+      
+      await uploadZipToServer(file);
 
-      const zip = await JSZip.loadAsync(file);
-      const structure = [];
+      if (isZip) {
+        try {
+          const zip = await JSZip.loadAsync(file);
+          const structure = [];
+    
+          Object.keys(zip.files).forEach((filename) => {
+            const zipFile = zip.files[filename];
+            const parts = filename.split("/");
+            let current = structure;
+    
+            parts.forEach((part, i) => {
+              if (!part) return;
+              let existing = current.find((node) => node.name === part);
+              if (!existing) {
+                existing = {
+                  name: part,
+                  isFolder: i < parts.length - 1 || zipFile.dir,
+                  children: [],
+                };
+                current.push(existing);
+              }
+              current = existing.children;
+            });
+          });
+    
+          setUploadedZips((prev) => [...prev, { zipName: file.name, structure }]);
+        } catch (e) {
+          console.error(`Failed to parse ZIP file: ${file.name}`, e);
+        }
+      } else if (isGz) {
+        // Just display it as a single flat file
+        setUploadedZips((prev) => [
+          ...prev,
+          { zipName: file.name, structure: [{ name: file.name, isFolder: false, children: [] }] },
+        ]);
+      }
+    }
+  };
 
-      Object.keys(zip.files).forEach((filename) => {
-        const file = zip.files[filename];
-        const parts = filename.split("/");
-        let current = structure;
-
-        parts.forEach((part, i) => {
-          if (!part) return;
-          let existing = current.find((node) => node.name === part);
-          if (!existing) {
-            existing = {
-              name: part,
-              isFolder: i < parts.length - 1 || file.dir,
-              children: [],
-            };
-            current.push(existing);
-          }
-          current = existing.children;
-        });
+  const uploadZipToServer = async (file) => {
+    const formData = new FormData();
+    formData.append("file", file);
+  
+    try {
+      const res = await fetch("http://localhost:8000/upload", {
+        method: "POST",
+        body: formData,
       });
-
-      setUploadedZips((prev) => [...prev, { zipName: file.name, structure }]);
+  
+      const result = await res.json();
+      console.log("Upload response:", result);
+      if (!res.ok) {
+        alert(result.error || "Upload failed");
+      }
+    } catch (error) {
+      console.error("Upload error:", error);
+      alert("Upload failed");
     }
   };
 
@@ -62,7 +100,7 @@ const FileUploadSidebar = () => {
 
           <Form.Control
             type="file"
-            accept=".zip"
+            accept=".zip,.gz"
             multiple={true}
             ref={fileInputRef}
             onChange={handleMultipleZipUpload}

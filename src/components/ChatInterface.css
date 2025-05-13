@@ -144,4 +144,35 @@ body.dark .file-upload-navbar {
   cursor: pointer;
 }
 
+.bot-typing {
+  font-size: 1.2rem;
+  color: gray;
+  font-family: monospace;
+  margin-left: 4px;
+}
+
+.dot {
+  animation: blink 1.5s infinite;
+  margin-left: 2px;
+}
+
+.dot.one {
+  animation-delay: 0s;
+}
+.dot.two {
+  animation-delay: 0.2s;
+}
+.dot.three {
+  animation-delay: 0.4s;
+}
+
+@keyframes blink {
+  0%, 80%, 100% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+
 
