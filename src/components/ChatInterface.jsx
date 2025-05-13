@@ -22,32 +22,39 @@ const ChatInterface = () => {
 
     socket.current.onopen = () => console.log("WebSocket connected");
     socket.current.onerror = (err) => console.error("WebSocket error:", err);
-    socket.current.onclose = (event) => console.warn("WebSocket closed:", event.reason);
+    socket.current.onclose = (event) =>
+      console.warn("WebSocket closed:", event.reason);
 
     socket.current.onmessage = (event) => {
       const token = event.data;
+      console.log("Received token:", JSON.stringify(token)); // Log with JSON.stringify to see exact content
 
       if (token === "[DONE]") {
         setIsStreaming(false);
         return;
       }
 
-      setMessages((prev) => {
-        const updated = [...prev];
-        const last = updated[updated.length - 1];
+      setMessages((prevMessages) => {
+        const lastMessage =
+          prevMessages.length > 0
+            ? prevMessages[prevMessages.length - 1]
+            : null;
 
-        if (last && last.sender === "bot") {
-          last.text += token;
-          updated[updated.length - 1] = { ...last };
+        if (lastMessage && lastMessage.sender === "bot") {
+          // Last message was from bot, append token to it
+          const updatedMessages = prevMessages.map((msg, index) => {
+            if (index === prevMessages.length - 1) {
+              // This is the last message, update its text
+              return { ...msg, text: msg.text + token };
+            }
+            return msg; // Other messages remain unchanged
+          });
+          return updatedMessages;
         } else {
-          updated.push({ sender: "bot", text: token });
+          // No messages yet, or last message was from user, so add new bot message
+          return [...prevMessages, { sender: "bot", text: token }];
         }
-
-        return updated;
-      });
-
-      setIsStreaming(false);
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      }); // messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }); // This is better placed in a useEffect hook watching [messages]
     };
 
     return () => {
@@ -94,7 +101,9 @@ const ChatInterface = () => {
           {messages.map((msg, i) => (
             <div
               key={i}
-              className={`mb-1 fs-14 text-${msg.sender === "user" ? "end" : "start"}`}
+              className={`mb-1 fs-14 text-${
+                msg.sender === "user" ? "end" : "start"
+              }`}
             >
               <span
                 className={`d-inline-block chat-window-text ${
