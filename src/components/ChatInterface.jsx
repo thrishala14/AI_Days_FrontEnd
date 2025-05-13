@@ -28,8 +28,7 @@ const ChatInterface = ({ isFileUploaded }) => {
 
     socket.current.onmessage = (event) => {
       const token = event.data;
-      console.log("Received token:", JSON.stringify(token)); // Log with JSON.stringify to see exact content
-
+      console.log("Received token:", JSON.stringify(token));
       if (token === "[DONE]") {
         setIsStreaming(false);
         return;
@@ -42,20 +41,17 @@ const ChatInterface = ({ isFileUploaded }) => {
             : null;
 
         if (lastMessage && lastMessage.sender === "bot") {
-          // Last message was from bot, append token to it
           const updatedMessages = prevMessages.map((msg, index) => {
             if (index === prevMessages.length - 1) {
-              // This is the last message, update its text
               return { ...msg, text: msg.text + token };
             }
-            return msg; // Other messages remain unchanged
+            return msg;
           });
           return updatedMessages;
         } else {
-          // No messages yet, or last message was from user, so add new bot message
           return [...prevMessages, { sender: "bot", text: token }];
         }
-      }); // messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }); // This is better placed in a useEffect hook watching [messages]
+      });
     };
 
     return () => {
