@@ -6,8 +6,9 @@ import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import "./ChatInterface.css";
 import ChatInterfaceNavbar from "./ChatInterfaceNavbar";
+import { toast } from "react-toastify";
 
-const ChatInterface = ({isFileUploaded}) => {
+const ChatInterface = ({ isFileUploaded }) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [isStreaming, setIsStreaming] = useState(false);
@@ -78,6 +79,10 @@ const ChatInterface = ({isFileUploaded}) => {
   }, [messages]);
 
   const sendMessage = () => {
+    if(!isFileUploaded) {
+      toast.error("Upload Log files before Proceeding");
+      return;
+    }
     if (input.trim()) {
       socket.current.send(input);
       setMessages((prev) => [...prev, { sender: "user", text: input }]);
@@ -87,17 +92,16 @@ const ChatInterface = ({isFileUploaded}) => {
   };
 
   const handleKeyDown = (e) => {
-  if (isStreaming) return; //  Prevent sending during streaming
+    if (isStreaming) return; //  Prevent sending during streaming
 
-  if (e.key === "Enter" && !e.shiftKey) {
-    e.preventDefault();
-    sendMessage();
-  }
-};
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  };
 
   return (
     <div className="d-flex flex-column vh-100">
-  
       <ChatInterfaceNavbar />
       <div className="flex-grow-1 overflow-auto px-4 py-3 d-flex justify-content-center message-window">
         <div className="message-window-container w-100 d-flex flex-column">
@@ -143,15 +147,14 @@ const ChatInterface = ({isFileUploaded}) => {
           messages.length > 0 ? "field-bottom" : "field-center"
         }`}
       >
-        {messages.length === 0 && <h4>Upload Logs and Start Analysing!</h4>}
-
+        {messages.length === 0 && <h4>Upload Logs to Start Analysing!</h4>}
+          
         <InputGroup className="chat-interface-input-group">
           <FormControl
             as="textarea"
             placeholder="Enter something..."
             className="chat-interface-input-text"
             value={input}
-            disabled={!isFileUploaded}
             onChange={(e) => setInput(e.target.value)}
             rows={1}
             onKeyDown={handleKeyDown}
@@ -184,6 +187,6 @@ const ChatInterface = ({isFileUploaded}) => {
       </div>
     </div>
   );
-};
+};  
 
 export default ChatInterface;

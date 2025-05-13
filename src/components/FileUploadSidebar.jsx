@@ -4,6 +4,7 @@ import JSZip from "jszip";
 import "./ChatInterface.css";
 import { Form } from "react-bootstrap";
 import { FaUpload } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 const FileUploadSidebar = ({setIsFileUploaded}) => {
   const fileInputRef = useRef();
@@ -78,15 +79,15 @@ const uploadZipToServer = async (file) => {
     const result = await res.json();
     console.log("Upload response:", result);
     if (!res.ok) {
-      alert(result.error || "Upload failed");
+      toast.error(result.error || "Upload failed");
       return false;
     }
-    alert("File Upload successful")
+    toast.success("File Upload successful");
     setIsFileUploaded(true);
     return true;
   } catch (error) {
     console.error("Upload error:", error);
-    alert("Upload failed");
+    toast.error("Upload failed because of "+ error);
     setIsFileUploaded(false);
     return false;
   }

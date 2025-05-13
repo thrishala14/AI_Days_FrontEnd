@@ -4,6 +4,7 @@ import { Button, Navbar, Container, Row, Col } from "react-bootstrap";
 import "./App.css";
 import FileUploadSidebar from "./components/FileUploadSidebar";
 import FileUploadNavbar from "./components/FileUploadNavbar";
+import { ToastContainer } from "react-toastify";
 
 export default function App() {
   const [theme, setTheme] = useState("light");
@@ -56,6 +57,7 @@ export default function App() {
           <ChatInterface isFileUploaded={isFileUploaded}/>
         </div>
       </div>
+      <ToastContainer/>
     </>
   );
 }
