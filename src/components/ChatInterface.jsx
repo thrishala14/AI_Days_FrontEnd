@@ -75,7 +75,7 @@ const ChatInterface = ({ isFileUploaded }) => {
   }, [messages]);
 
   const sendMessage = () => {
-    if(!isFileUploaded) {
+    if (!isFileUploaded) {
       toast.error("Upload Log files before Proceeding");
       return;
     }
@@ -118,6 +118,19 @@ const ChatInterface = ({ isFileUploaded }) => {
                     children={msg.text}
                     remarkPlugins={[remarkGfm]}
                     rehypePlugins={[rehypeHighlight]}
+                    components={{
+                      table: (props) => (
+                        <div className="fancy-table-wrapper">
+                          <table className="fancy-markdown-table" {...props} />
+                        </div>
+                      ),
+                      th: (props) => (
+                        <th className="fancy-markdown-th" {...props} />
+                      ),
+                      td: (props) => (
+                        <td className="fancy-markdown-td" {...props} />
+                      ),
+                    }}
                   />
                 ) : (
                   msg.text
@@ -144,7 +157,7 @@ const ChatInterface = ({ isFileUploaded }) => {
         }`}
       >
         {messages.length === 0 && <h4>Upload Logs to Start Analysing!</h4>}
-          
+
         <InputGroup className="chat-interface-input-group">
           <FormControl
             as="textarea"
@@ -155,7 +168,6 @@ const ChatInterface = ({ isFileUploaded }) => {
             rows={1}
             onKeyDown={handleKeyDown}
             ref={textareaRef}
-            
             style={{
               resize: "none",
               overflowY: "hidden",
@@ -169,20 +181,20 @@ const ChatInterface = ({ isFileUploaded }) => {
             onClick={sendMessage}
             disabled={isStreaming}
           >
-           {isStreaming ? (
-            <div className="mb-2 text-start button-loading">
-              <span className="dot one">.</span>
-              <span className="dot two">.</span>
-              <span className="dot three">.</span>
-            </div>
-           
-          ) : <FaArrowUp />}
-            
+            {isStreaming ? (
+              <div className="mb-2 text-start button-loading">
+                <span className="dot one">.</span>
+                <span className="dot two">.</span>
+                <span className="dot three">.</span>
+              </div>
+            ) : (
+              <FaArrowUp />
+            )}
           </button>
         </InputGroup>
       </div>
     </div>
   );
-};  
+};
 
 export default ChatInterface;

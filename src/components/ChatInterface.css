@@ -195,3 +195,40 @@ body.dark .file-upload-navbar {
 }
 
 
+.fancy-table-wrapper {
+  overflow-x: auto;
+  margin: 1rem 0;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.fancy-markdown-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  min-width: 400px;
+}
+
+.fancy-markdown-th,
+.fancy-markdown-td {
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.fancy-markdown-th {
+  background-color: #f6f8fa;
+  font-weight: bold;
+  color: #333;
+}
+
+.fancy-markdown-table tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.fancy-markdown-table tr:hover {
+  background-color: #f0f8ff;
+}
