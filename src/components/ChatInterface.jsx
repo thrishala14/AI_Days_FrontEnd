@@ -18,37 +18,45 @@ const ChatInterface = ({isFileUploaded}) => {
   const maxRows = 6;
 
   useEffect(() => {
-    console.log("isFileUploaded", isFileUploaded);
     socket.current = new WebSocket("ws://localhost:8000/ws");
+
     socket.current.onopen = () => console.log("WebSocket connected");
     socket.current.onerror = (err) => console.error("WebSocket error:", err);
     socket.current.onclose = (event) =>
       console.warn("WebSocket closed:", event.reason);
+
     socket.current.onmessage = (event) => {
       const token = event.data;
-      console.log("Received token:", JSON.stringify(token));
+      console.log("Received token:", JSON.stringify(token)); // Log with JSON.stringify to see exact content
+
       if (token === "[DONE]") {
         setIsStreaming(false);
         return;
       }
+
       setMessages((prevMessages) => {
         const lastMessage =
           prevMessages.length > 0
             ? prevMessages[prevMessages.length - 1]
             : null;
+
         if (lastMessage && lastMessage.sender === "bot") {
+          // Last message was from bot, append token to it
           const updatedMessages = prevMessages.map((msg, index) => {
             if (index === prevMessages.length - 1) {
+              // This is the last message, update its text
               return { ...msg, text: msg.text + token };
             }
-            return msg;
+            return msg; // Other messages remain unchanged
           });
           return updatedMessages;
         } else {
+          // No messages yet, or last message was from user, so add new bot message
           return [...prevMessages, { sender: "bot", text: token }];
         }
-      });
+      }); // messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }); // This is better placed in a useEffect hook watching [messages]
     };
+
     return () => {
       socket.current.close();
     };
@@ -89,6 +97,7 @@ const ChatInterface = ({isFileUploaded}) => {
 
   return (
     <div className="d-flex flex-column vh-100">
+  
       <ChatInterfaceNavbar />
       <div className="flex-grow-1 overflow-auto px-4 py-3 d-flex justify-content-center message-window">
         <div className="message-window-container w-100 d-flex flex-column">

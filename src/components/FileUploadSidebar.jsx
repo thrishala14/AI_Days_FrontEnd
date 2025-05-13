@@ -113,8 +113,7 @@ const uploadZipToServer = async (file) => {
 
           <Form.Control
             type="file"
-            accept=".zip,.gz"
-            multiple={true}
+            accept=".zip"
             ref={fileInputRef}
             onChange={handleMultipleZipUpload}
             style={{ display: "none" }}
