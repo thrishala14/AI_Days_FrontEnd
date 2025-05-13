@@ -5,43 +5,94 @@ import "./ChatInterface.css";
 import { Form } from "react-bootstrap";
 import { FaUpload } from "react-icons/fa";
 
-const FileUploadSidebar = () => {
+const FileUploadSidebar = ({setIsFileUploaded}) => {
   const fileInputRef = useRef();
   const [uploadedZips, setUploadedZips] = useState([]);
 
-  const handleMultipleZipUpload = async (e) => {
-    setUploadedZips([])
-    const files = Array.from(e.target.files);
+const handleMultipleZipUpload = async (e) => {
+  setUploadedZips([]);
+  const files = Array.from(e.target.files);
 
-    for (const file of files) {
-      if (!file.name.endsWith(".zip")) continue;
+  for (const file of files) {
+    const isZip = file.name.endsWith(".zip");
+    const isGz = file.name.endsWith(".gz");
 
-      const zip = await JSZip.loadAsync(file);
-      const structure = [];
+    if (!isZip && !isGz) continue;
 
-      Object.keys(zip.files).forEach((filename) => {
-        const file = zip.files[filename];
-        const parts = filename.split("/");
-        let current = structure;
-
-        parts.forEach((part, i) => {
-          if (!part) return;
-          let existing = current.find((node) => node.name === part);
-          if (!existing) {
-            existing = {
-              name: part,
-              isFolder: i < parts.length - 1 || file.dir,
-              children: [],
-            };
-            current.push(existing);
-          }
-          current = existing.children;
-        });
-      });
-
-      setUploadedZips((prev) => [...prev, { zipName: file.name, structure }]);
+    // Upload file first
+    const uploadSuccess = await uploadZipToServer(file);
+    if (!uploadSuccess) {
+      console.warn(`Skipping ZIP structure extraction due to failed upload: ${file.name}`);
+      continue;
     }
-  };
+
+    // Only after successful upload, parse the ZIP locally
+    if (isZip) {
+      try {
+        const zip = await JSZip.loadAsync(file);
+        const structure = [];
+
+        Object.keys(zip.files).forEach((filename) => {
+          const zipFile = zip.files[filename];
+          const parts = filename.split("/");
+          let current = structure;
+
+          parts.forEach((part, i) => {
+            if (!part) return;
+            let existing = current.find((node) => node.name === part);
+            if (!existing) {
+              existing = {
+                name: part,
+                isFolder: i < parts.length - 1 || zipFile.dir,
+                children: [],
+              };
+              current.push(existing);
+            }
+            current = existing.children;
+          });
+        });
+
+        setUploadedZips((prev) => [...prev, { zipName: file.name, structure }]);
+      } catch (e) {
+        console.error(`Failed to parse ZIP file: ${file.name}`, e);
+      }
+    } else if (isGz) {
+      setUploadedZips((prev) => [
+        ...prev,
+        { zipName: file.name, structure: [{ name: file.name, isFolder: false, children: [] }] },
+      ]);
+    }
+  }
+};
+
+const uploadZipToServer = async (file) => {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  try {
+    const res = await fetch("http://localhost:8000/upload", {
+      method: "POST",
+      body: formData,
+    });
+
+    const result = await res.json();
+    console.log("Upload response:", result);
+    if (!res.ok) {
+      alert(result.error || "Upload failed");
+      return false;
+    }
+    alert("File Upload successful")
+    setIsFileUploaded(true);
+    return true;
+  } catch (error) {
+    console.error("Upload error:", error);
+    alert("Upload failed");
+    setIsFileUploaded(false);
+    return false;
+  }
+};
+
+
 
   const preventDefault = (e) => e.preventDefault();
   return (
@@ -62,7 +113,7 @@ const FileUploadSidebar = () => {
 
           <Form.Control
             type="file"
-            accept=".zip"
+            accept=".zip,.gz"
             multiple={true}
             ref={fileInputRef}
             onChange={handleMultipleZipUpload}

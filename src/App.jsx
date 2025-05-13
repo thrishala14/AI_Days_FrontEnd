@@ -8,6 +8,7 @@ import FileUploadNavbar from "./components/FileUploadNavbar";
 export default function App() {
   const [theme, setTheme] = useState("light");
   const [sidebarWidth, setSidebarWidth] = useState("300px");
+  const [isFileUploaded, setIsFileUploaded] = useState(false)
 
   const handleMouseDown = (e) => {
     const startX = e.clientX;
@@ -44,7 +45,7 @@ export default function App() {
         >
          <div className="file-upload-sidebar">
            <FileUploadNavbar />
-          <FileUploadSidebar />
+          <FileUploadSidebar setIsFileUploaded={setIsFileUploaded}/>
          </div>
         </div>
 
@@ -52,7 +53,7 @@ export default function App() {
         <div className="resize-handle" onMouseDown={handleMouseDown} />
 
         <div className="chat-container flex-grow-1 d-flex flex-column position-relative p-0">
-          <ChatInterface />
+          <ChatInterface isFileUploaded={isFileUploaded}/>
         </div>
       </div>
     </>
