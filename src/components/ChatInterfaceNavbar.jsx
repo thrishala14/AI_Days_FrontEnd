@@ -23,7 +23,6 @@ const ChatInterfaceNavbar = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
     document.body.className = newTheme;
-    // localStorage.setItem("theme", newTheme);
   };
   return (
     <Navbar className="chat-interface-navbar px-3 sticky-top">
@@ -33,7 +32,7 @@ const ChatInterfaceNavbar = () => {
     alt="InsightTrace Logo" 
     height={36}
   />
-  <strong className={document.body.className === "dark" ? "text-white" : "text-darkblue"}>
+  <strong className={theme === "dark" ? "text-white" : "text-darkblue"}>
     Insight
   </strong>
   <strong className="text-orange">Trace</strong>
@@ -42,7 +41,9 @@ const ChatInterfaceNavbar = () => {
   <div className="ms-auto d-flex align-items-center">
      <div className="theme-toggle-wrapper" onClick={handleToggle}>
       <div className={`toggle-switch ${document.body.className === "dark" ? "dark" : "light"}`}>
-         <div className="toggle-knob" />
+         <div className="toggle-knob" >
+          {document.body.className === "light" ? <FaMoon /> : <FaSun />}
+         </div>
         <div className="toggle-icon">
           {document.body.className === "dark" ? <FaMoon /> : <FaSun />}
         </div>
