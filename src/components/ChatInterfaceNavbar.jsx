@@ -32,7 +32,7 @@ const ChatInterfaceNavbar = () => {
     alt="InsightTrace Logo" 
     height={36}
   />
-  <strong className={document.body.className === "dark" ? "text-white" : "text-darkblue"}>
+  <strong className={theme === "dark" ? "text-white" : "text-darkblue"}>
     Insight
   </strong>
   <strong className="text-orange">Trace</strong>
