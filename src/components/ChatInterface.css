@@ -399,7 +399,6 @@ body.dark .custom-modal .modal-header .btn-close {
   border-collapse: collapse;
   font-size: 14px;
   background-color: var(--bg-color);
-  background-color: var( --color-pure-white);
   border-radius: 10px;
   overflow: hidden;
   min-width: 400px;
