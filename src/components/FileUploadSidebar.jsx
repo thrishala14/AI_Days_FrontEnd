@@ -6,11 +6,13 @@ import { Form } from "react-bootstrap";
 import { FaUpload } from "react-icons/fa";
 import { toast } from "react-toastify";
 import ConfirmationModal from "./ConfirmationModal";
+import LogProcessingModal from "./LogProcessingModal";
 
 const FileUploadSidebar = ({ setIsFileUploaded, isFileUploaded }) => {
   const fileInputRef = useRef();
   const [uploadedZips, setUploadedZips] = useState([]);
   const [pendingFiles, setPendingFiles] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
   const handleFileInput = (e) => {
@@ -100,6 +102,7 @@ const FileUploadSidebar = ({ setIsFileUploaded, isFileUploaded }) => {
   };
 
   const uploadZipToServer = async (file) => {
+    setLoading(true)
     const formData = new FormData();
     formData.append("file", file);
 
@@ -114,22 +117,28 @@ const FileUploadSidebar = ({ setIsFileUploaded, isFileUploaded }) => {
       if (!res.ok) {
         toast.error(result.error || "Upload failed");
         setIsFileUploaded(false);
+        setLoading(false)
         return false;
       }
       toast.success("File Upload successful");
       setIsFileUploaded(true);
+      setLoading(false)
       return true;
     } catch (error) {
       console.error("Upload error:", error);
       toast.error("Upload failed because of " + error);
       setIsFileUploaded(false);
+      setLoading(false)
       return false;
     }
   };
 
   const preventDefault = (e) => e.preventDefault();
+
+
   return (
     <div>
+      <LogProcessingModal show={loading} />
       <div className="p-4">
         <div
           className="dotted-upload-box text-center"

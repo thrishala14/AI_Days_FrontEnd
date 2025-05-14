@@ -327,7 +327,48 @@ body.dark .toggle-icon  {
   color: var(--color-primary-orange-100);
 }
 
+.custom-modal .modal-content{
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
 
+body.dark .custom-modal .modal-header .btn-close {
+  filter: invert(100%) grayscale(100%) brightness(200%);
+}
+
+.custom-modal .modal-header  {
+  border-bottom: 1px solid var(--text-input-background-color);
+}
+
+.custom-modal .modal-footer  {
+  border-top: 1px solid var(--text-input-background-color);
+}
+
+
+.hourglass-icon {
+  display: inline-block;
+  color: var(--color-primary-orange-100); /* Bootstrap primary */
+  animation: flip-hourglass 2s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes flip-hourglass {
+  0% {
+    transform: rotate(0deg);
+  }
+  40% {
+    transform: rotate(180deg);
+  }
+  50% {
+    transform: rotate(180deg); /* Pause briefly */
+  }
+  90% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(360deg); /* Pause again */
+  }
+}
 
 
 

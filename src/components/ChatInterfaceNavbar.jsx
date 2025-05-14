@@ -33,7 +33,7 @@ const ChatInterfaceNavbar = () => {
     alt="InsightTrace Logo" 
     height={36}
   />
-  <strong className={document.body.className === "dark" ? "text-white" : "text-darkblue"}>
+  <strong className={theme === "dark" ? "text-white" : "text-darkblue"}>
     Insight
   </strong>
   <strong className="text-orange">Trace</strong>
@@ -41,7 +41,7 @@ const ChatInterfaceNavbar = () => {
 
   <div className="ms-auto d-flex align-items-center">
      <div className="theme-toggle-wrapper" onClick={handleToggle}>
-      <div className={`toggle-switch ${document.body.className === "dark" ? "dark" : "light"}`}>
+      <div className={`toggle-switch ${theme === "dark" ? "dark" : "light"}`}>
          <div className="toggle-knob" />
         <div className="toggle-icon">
           {document.body.className === "dark" ? <FaMoon /> : <FaSun />}
