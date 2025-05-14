@@ -11,7 +11,7 @@
 }
 
 .message-window {
-  flex-grow: 1;
+  /* flex-grow: 1; */
   overflow-y: auto;
   margin-bottom: 80px;
   min-width: 0;
@@ -70,7 +70,7 @@ body.dark .chat-interface-input-group {
 
 .chat-window-text {
   display: inline-block;         /* or block */
-  max-width: 70%;
+  max-width: 100%;
   word-break: break-word;
   overflow-wrap: break-word;
   white-space: pre-wrap;
@@ -79,6 +79,20 @@ body.dark .chat-interface-input-group {
   margin-bottom: 10px;
   text-align: left;
   min-width: 0;                  
+}
+
+body.light .bot-text{
+  max-width: 90%;
+  background-color: #f1f1f19f;
+  padding-top: 20px;
+  
+}
+
+body.dark .bot-text{
+  max-width: 90% ;
+  background-color: var(--color-primary-blue-90);
+  padding-top: 20px;
+  
 }
 
 .user-text{
@@ -193,6 +207,129 @@ body.dark .file-upload-navbar {
     opacity: 1;
   }
 }
+
+.markdown-rendered {
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-color);
+}
+
+/* Paragraphs */
+.markdown-rendered p {
+  margin: 0 0 1rem;
+  text-align: justify;
+}
+
+/* Headings */
+.markdown-rendered h1,
+.markdown-rendered h2,
+.markdown-rendered h3 {
+  margin: 1rem 0 0.5rem;
+  font-weight: 600;
+}
+
+/* Inline code */
+.markdown-rendered code {
+  font-family: monospace;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.95em;
+}
+
+/* Code blocks */
+.markdown-rendered pre {
+    max-width: 100%;
+  background-color: #1e1e1e;
+  color: #f8f8f2;
+  padding: 1rem;
+  border-radius: 6px;
+  overflow-x: auto;
+}
+
+/* Blockquotes */
+.markdown-rendered blockquote {
+  border-left: 4px solid #ccc;
+  padding-left: 1rem;
+  color: #666;
+  margin: 1rem 0;
+}
+
+/* Tables */
+.markdown-rendered table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+.markdown-rendered th,
+.markdown-rendered td {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+}
+
+.theme-toggle-wrapper {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.toggle-switch {
+  position: relative;
+  width: 60px;
+  height: 30px;
+  background-color: #333;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 6px;
+  transition: background-color 0.3s ease;
+}
+
+.toggle-switch.light {
+  background-color: #dedddd;
+  justify-content: flex-start;
+}
+
+.toggle-knob {
+  width: 22px;
+  height: 22px;
+  background-color: white;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+ body.light .toggle-icon  {
+  color: black;
+  font-size: 16px;
+  position: absolute;
+  right: 8px;
+  pointer-events: none;
+}
+
+body.dark .toggle-icon  {
+  color: white;
+  font-size: 16px;
+  position: absolute;
+  left: 8px;
+  pointer-events: none;
+}
+
+.text-darkblue{
+  color: var(--color-primary-blue-100);
+}
+
+.text-white{
+  color: white;
+}
+
+.text-orange{
+  color: var(--color-primary-orange-100);
+}
+
+
+
+
 
 
 .fancy-table-wrapper {

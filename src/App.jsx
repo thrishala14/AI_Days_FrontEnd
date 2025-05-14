@@ -7,7 +7,6 @@ import FileUploadNavbar from "./components/FileUploadNavbar";
 import { ToastContainer } from "react-toastify";
 
 export default function App() {
-  const [theme, setTheme] = useState("light");
   const [sidebarWidth, setSidebarWidth] = useState("300px");
   const [isFileUploaded, setIsFileUploaded] = useState(false)
 
@@ -32,11 +31,7 @@ export default function App() {
     document.addEventListener("mousemove", handleMouseMove);
     document.addEventListener("mouseup", handleMouseUp);
   };
-
-  useEffect(() => {
-    document.body.className = theme;
-  });
-
+  
   return (
     <>
       <div className="d-flex vh-100 overflow-hidden">
@@ -46,7 +41,7 @@ export default function App() {
         >
          <div className="file-upload-sidebar">
            <FileUploadNavbar />
-          <FileUploadSidebar setIsFileUploaded={setIsFileUploaded}/>
+          <FileUploadSidebar setIsFileUploaded={setIsFileUploaded} isFileUploaded={isFileUploaded}/>
          </div>
         </div>
 

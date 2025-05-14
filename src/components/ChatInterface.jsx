@@ -97,7 +97,7 @@ const ChatInterface = ({ isFileUploaded }) => {
   };
 
   return (
-    <div className="d-flex flex-column vh-100">
+    <div className="d-flex flex-column vh-100 ">
       <ChatInterfaceNavbar />
       <div className="flex-grow-1 overflow-auto px-4 py-3 d-flex justify-content-center message-window">
         <div className="message-window-container w-100 d-flex flex-column">
@@ -110,7 +110,7 @@ const ChatInterface = ({ isFileUploaded }) => {
             >
               <div
                 className={`chat-window-text ${
-                  msg.sender === "user" ? "user-text" : ""
+                  msg.sender === "user" ? "user-text" : "bot-text text-justify"
                 }`}
               >
                 {msg.sender === "bot" ? (
