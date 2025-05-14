@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ChatInterface from "./components/ChatInterface";
 import { Button, Navbar, Container, Row, Col } from "react-bootstrap";
 import "./App.css";
@@ -10,8 +10,7 @@ export default function App() {
   const [sidebarWidth, setSidebarWidth] = useState("300px");
   const [isFileUploaded, setIsFileUploaded] = useState(false)
 
-  const handleMouseDown = (e) => {
-    const startX = e.clientX;
+  const handleMouseDown = () => {
 
     const handleMouseMove = (e) => {
       const newWidth = e.clientX;
